@@ -1,9 +1,9 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import lombok.Data;
 
-public class OrderMapRepo implements OrderRepo{
+import java.util.*;
+
+@Data
+public class OrderMapRepo implements OrderRepo {
     private Map<String, Order> orders = new HashMap<>();
 
     @Override
@@ -12,8 +12,8 @@ public class OrderMapRepo implements OrderRepo{
     }
 
     @Override
-    public Order getOrderById(String id) {
-        return orders.get(id);
+    public Optional<Order> getOrderById(String id) {
+        return Optional.ofNullable(orders.get(id));
     }
 
     @Override
