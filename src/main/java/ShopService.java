@@ -3,9 +3,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class ShopService {
-    private ProductRepo productRepo = new ProductRepo();
     private OrderRepo orderRepo = new OrderMapRepo();
-    private OrderStatus orderStatus = OrderStatus.PROCESSING;
+    private ProductRepo productRepo = new ProductRepo();
 
     public Order addOrder(List<String> productIds) {
         List<Product> products = new ArrayList<>();
@@ -18,8 +17,22 @@ public class ShopService {
             products.add(productToOrder);
         }
 
-        Order newOrder = new Order(UUID.randomUUID().toString(), products, orderStatus);
+        Order newOrder = new Order(UUID.randomUUID().toString(), products, OrderStatus.PROCESSING);
 
         return orderRepo.addOrder(newOrder);
     }
+
+    public List<Order> getOrdersByStatus(OrderStatus orderStatus) {
+        return orderRepo.getOrders().stream()
+                .filter(order -> order.orderStatus().equals(orderStatus)).toList();
+    }
+
+    public ProductRepo getProductRepo() {
+        return productRepo;
+    }
+
+    public void setProductRepo(ProductRepo productRepo) {
+        this.productRepo = productRepo;
+    }
+
 }
