@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ShopServiceTest {
     private static ShopService shopService;
+    ZonedDateTime testTimestamp = ZonedDateTime.now();
 
 
     @BeforeEach
@@ -23,10 +25,10 @@ class ShopServiceTest {
         shopService.getProductRepo().addProduct(product2);
         shopService.getProductRepo().addProduct(product3);
 
-        Order order1 = new Order("1", List.of(product1, product2), OrderStatus.COMPLETED);
-        Order order2 = new Order("2", List.of(product1), OrderStatus.PROCESSING);
-        Order order3 = new Order("3", List.of(product2, product3), OrderStatus.COMPLETED);
-        Order order4 = new Order("4", List.of(product3, product1), OrderStatus.IN_DELIVERY);
+        Order order1 = new Order("1", List.of(product1, product2), OrderStatus.COMPLETED, testTimestamp);
+        Order order2 = new Order("2", List.of(product1), OrderStatus.PROCESSING, testTimestamp);
+        Order order3 = new Order("3", List.of(product2, product3), OrderStatus.COMPLETED, testTimestamp);
+        Order order4 = new Order("4", List.of(product3, product1), OrderStatus.IN_DELIVERY, testTimestamp);
 
         shopService.getOrderRepo().addOrder(order1);
         shopService.getOrderRepo().addOrder(order2);
@@ -45,7 +47,7 @@ class ShopServiceTest {
         Order actual = shopService.addOrder(productsIds);
 
         //THEN
-        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING);
+        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), OrderStatus.PROCESSING, testTimestamp);
         assertEquals(expected.products(), actual.products());
         assertNotNull(expected.id());
 
