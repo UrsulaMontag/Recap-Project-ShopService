@@ -27,10 +27,7 @@ public class ShopService {
                 .filter(order -> order.orderStatus().equals(orderStatus)).toList();
     }
 
-    public ProductRepo getProductRepo() {
-        return productRepo;
-    }
-
+    //TODO: delete this when mock the products. Actually needed for tests
     public void setProductRepo(ProductRepo productRepo) {
         this.productRepo = productRepo;
     }
