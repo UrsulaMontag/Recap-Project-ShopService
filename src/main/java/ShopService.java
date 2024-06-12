@@ -1,9 +1,14 @@
+import lombok.Data;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Data
 public class ShopService {
     private OrderRepo orderRepo = new OrderMapRepo();
+
     private ProductRepo productRepo = new ProductRepo();
 
     public Order addOrder(List<String> productIds) throws IDNotNullException {
@@ -23,9 +28,10 @@ public class ShopService {
                 .filter(order -> order.orderStatus().equals(orderStatus)).toList();
     }
 
-    //TODO: delete this when mock the products. Actually needed for tests
-    public void setProductRepo(ProductRepo productRepo) {
-        this.productRepo = productRepo;
+    public void updateOrder(String orderId, OrderStatus orderStatus) throws IDNotNullException {
+        Order orderToUpdate = orderRepo.getOrderById(orderId)
+                .orElseThrow(() -> new IDNotNullException("Bestellung mit der Id: " + orderId + " wurde nicht gefunden!"));
+        orderRepo.addOrder(orderToUpdate.withOrderStatus(orderStatus));
     }
 
 }

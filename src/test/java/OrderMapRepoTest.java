@@ -38,7 +38,11 @@ class OrderMapRepoTest {
         repo.addOrder(newOrder);
 
         //WHEN
-        Order actual = repo.getOrderById("1");
+        Order actual = null;
+        try {
+            actual = repo.getOrderById("1").get();
+        } catch (Exception e) {
+        }
 
         //THEN
         Product product1 = new Product("1", "Apfel");
