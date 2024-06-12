@@ -1,4 +1,5 @@
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.ZonedDateTime;
@@ -7,10 +8,17 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@RequiredArgsConstructor
+
 public class ShopService {
     private OrderRepo orderRepo = new OrderMapRepo();
 
     private ProductRepo productRepo = new ProductRepo();
+
+    public ShopService(ProductRepo productRepo, OrderMapRepo orderRepo) {
+        this.productRepo = productRepo;
+        this.orderRepo = orderRepo;
+    }
 
     public Order addOrder(List<String> productIds) throws IDNotNullException {
         List<Product> products = new ArrayList<>();
